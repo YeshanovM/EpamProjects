@@ -1,18 +1,21 @@
 package model;
 
 import model.entity.*;
+import model.entity.enums.SentenceType;
+
 import java.io.*;
 import java.util.*;
 
 public class Model {
 
+    private Sentence<SentenceUnit>[] sentences;
+
     public Model() {
     }
 
-    public String[] getWords(String filePath, int wordLength) {
-        ArrayList<Sentence<SentenceUnit>> questions = getInterrogativeSentences(filePath);
+    public static String[] getWordsByLength(Sentence<SentenceUnit>[] sentences, int wordLength) {
         TreeSet<Word> wordsTreeSet = new TreeSet<>();
-        for(Sentence<SentenceUnit> question : questions) {
+        for(Sentence<SentenceUnit> question : sentences) {
             for(SentenceUnit unit : question.getUnits()) {
                 if(unit instanceof Word && ((Word) unit).getLength() == wordLength)
                     wordsTreeSet.add((Word) unit);
@@ -25,26 +28,40 @@ public class Model {
         return result;
     }
 
-    private ArrayList<Sentence<SentenceUnit>> getInterrogativeSentences(String filePath) {
+    public String[] getWordsByLength(int wordLength) {
+        return getWordsByLength(sentences, wordLength);
+    }
+
+    public void getAllSentences(String text) {
         ArrayList<Sentence<SentenceUnit>> result = new ArrayList<>();
-        try {
-            FileReader fr = new FileReader(filePath);
-            int symbol;
-            StringBuffer buffer = new StringBuffer();
-            do {
-                symbol = fr.read();
-                buffer.append((char)symbol);
-                if(symbol == '.' || symbol == '?' || symbol == '!') {
-                    if(symbol == '?')
-                        result.add(new Sentence<>(buffer.toString()));
-                    buffer = new StringBuffer();
-                }
-            } while(symbol != -1);
-            fr.close();
+        StringBuffer buffer = new StringBuffer();
+        for(int i = 0; i < text.length(); i++) {
+            char symbol = text.charAt(i);
+            buffer.append(symbol);
+            if(symbol == '.' || symbol == '?' || symbol == '!') {
+                result.add(new Sentence<>(buffer.toString()));
+                buffer = new StringBuffer();
+            }
         }
-        catch (IOException e) {
-            return null;
+        sentences = (Sentence<SentenceUnit>[])result.toArray();
+    }
+
+    public static Sentence<SentenceUnit>[] getSentencesByType(Sentence<SentenceUnit>[] sentences, SentenceType type) {
+        ArrayList<Sentence<SentenceUnit>> result = new ArrayList<>();
+        for(Sentence<SentenceUnit> sentence : sentences) {
+            if(sentence.getType() == type)
+                result.add(sentence);
         }
-        return result;
+        Sentence<SentenceUnit>[] resultArray = new Sentence[result.size()];
+        int i = 0;
+        for(Sentence<SentenceUnit> sentence : result) {
+            resultArray[i] = sentence;
+            i++;
+        }
+        return resultArray;
+    }
+
+    public Sentence<SentenceUnit>[] getSentencesByType(SentenceType type) {
+        return getSentencesByType(sentences, type);
     }
 }

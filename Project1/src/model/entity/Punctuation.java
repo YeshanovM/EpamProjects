@@ -16,8 +16,8 @@ public class Punctuation extends SentenceUnit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Word word = (Word) o;
-        return getValue().equals(word.getValue());
+        Punctuation punctuation = (Punctuation) o;
+        return getValue().equals(punctuation.getValue());
     }
 
     @Override
