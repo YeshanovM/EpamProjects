@@ -16,6 +16,7 @@ public class ConsoleView {
 
     public static final String TOTAL_CALORICITY_MESSAGE = "Total salad caloricity: ";
     public static final String RELATIVE_CALORICITY_MESSAGE = "Relative salad caloricity: ";
+    public static final String NO_VEGETABLES_FOUND = "No suitable vegetables found";
 
     public ConsoleView() {
     }
@@ -36,6 +37,10 @@ public class ConsoleView {
         System.out.println(MenuData.MAKE_SALAD.getKey()
                 + MENU_SEPARATOR
                 + MenuData.MAKE_SALAD.getValue()
+        );
+        System.out.println(MenuData.SHOW_SALAD.getKey()
+                + MENU_SEPARATOR
+                + MenuData.SHOW_SALAD.getValue()
         );
         System.out.println(MenuData.GET_SALAD_CALORICITY.getKey()
                 + MENU_SEPARATOR

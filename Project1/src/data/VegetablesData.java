@@ -8,6 +8,5 @@ public class VegetablesData {
             new Root("Carrot", 10, Taste.SWEET),
             new Beans("Pace", 20, Taste.SWEET),
             new Cabbage("Cabbage", 10, Taste.SWEET)
-            // TODO
     };
 }

@@ -48,24 +48,24 @@ public class Model {
         makeSalad(name, vegetablesMap);
     }
 
-    public int getTotalSaladCaloricity() {
+    public double getTotalSaladCaloricity() {
         if(salad == null)
             return 0;
-        int caloricity = 0;
+        double caloricity = 0;
         HashMap<Vegetable, Integer> vegetables = salad.getVegetables();
         for(Vegetable vegetable : vegetables.keySet()) {
-            caloricity += vegetable.getCaloricity() * vegetables.get(vegetable);
+            caloricity += vegetable.getCaloricity() * vegetables.get(vegetable) / 100.0;
         }
         return caloricity;
     }
 
-    public int getRelativeSaladCaloricity() {
+    public double getRelativeSaladCaloricity() {
         if(salad == null || salad.getVegetables().size() == 0)
             return 0;
         int totalWeight = 0;
         for(Integer weight : salad.getVegetables().values())
             totalWeight += weight;
-        return (getTotalSaladCaloricity() / totalWeight);
+        return (getTotalSaladCaloricity() / totalWeight) * 100;
     }
 
     public void sortVegetablesByCaloricity() {
@@ -73,10 +73,14 @@ public class Model {
     }
 
     public ArrayList<Vegetable> getSaladVegetablesByCaloricity(int min, int max) {
-        Vegetable[] array = (Vegetable[])salad.getVegetables().keySet().stream()
-                .filter(vegetable -> (vegetable.getCaloricity() >= min && vegetable.getCaloricity() <= max)
-        ).toArray();
-        return new ArrayList<>(Arrays.asList(array));
+        if(salad == null || salad.getVegetables().size() == 0)
+            return null;
+        ArrayList<Vegetable> filteredVegetables = new ArrayList<>();
+        for(Vegetable vegetable : salad.getVegetables().keySet()) {
+            if(vegetable.getCaloricity() >= min && vegetable.getCaloricity() <= max)
+                filteredVegetables.add(vegetable);
+        }
+        return filteredVegetables;
     }
 
     public Salad getSalad() {
@@ -97,7 +101,7 @@ public class Model {
 
     public ArrayList<Vegetable> getRandomVegetables(ArrayList<Vegetable> source) {
         ArrayList<Vegetable> vegetables = new ArrayList<>();
-        int count = (int)((Math.random() / 2 + 0.5) * source.size());
+        int count = (int)((Math.random() / 2 + 0.5) * source.size()) + 1;
         for(int i = 0; i < count; i++) {
             int index = (int)(Math.random() * source.size());
             while(vegetables.contains(source.get(index))) {

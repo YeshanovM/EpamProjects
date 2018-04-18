@@ -1,6 +1,7 @@
 package controller;
 
 import data.*;
+import model.entity.Vegetable;
 import utils.ConsoleReader;
 import view.ConsoleView;
 import model.Model;
@@ -56,7 +57,18 @@ public class Controller {
                 view.showVegetables(model.getVegetables());
             }
             else if(cmd[0].equals(MenuData.GET_VEGETABLES_BY_CALORIES_RANGE.getKey())) {
-                //TODO
+                try {
+                    int min = Integer.parseInt(cmd[1]);
+                    int max = Integer.parseInt(cmd[2]);
+                    ArrayList<Vegetable> vegetables = model.getSaladVegetablesByCaloricity(min, max);
+                    if(vegetables == null || vegetables.size() != 0)
+                        view.showVegetables(vegetables);
+                    else
+                        view.showMessage(ConsoleView.NO_VEGETABLES_FOUND);
+                }
+                catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+                    view.showInvalidCmdMessage();
+                }
             }
             else if(!cmd[0].equals(MenuData.EXIT.getKey())) {
                 view.showInvalidCmdMessage();
