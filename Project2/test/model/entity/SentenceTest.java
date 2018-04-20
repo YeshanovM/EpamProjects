@@ -15,13 +15,13 @@ public class SentenceTest {
             "O'kay."
     };
 
-    private Sentence<SentenceUnit>[] sentences;
+    private Sentence[] sentences;
 
     @Before
     public void setUp() {
         sentences = new Sentence[STRINGS.length];
         for(int i = 0; i < STRINGS.length; i++) {
-            sentences[i] = new Sentence<>(STRINGS[i]);
+            sentences[i] = new Sentence(STRINGS[i]);
         }
     }
 

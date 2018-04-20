@@ -4,8 +4,8 @@ import model.entity.enums.SentenceType;
 
 import java.util.*;
 
-public class Sentence<E extends SentenceUnit> {
-    private List<E> units;
+public class Sentence {
+    private List<SentenceUnit> units;
     private SentenceType type;
 
     public Sentence() {
@@ -22,13 +22,13 @@ public class Sentence<E extends SentenceUnit> {
             if(word.substring(word.length() - 1).matches("[,;\\-:.?!]")) {
                 if(word.length() > 1) {
                     Word w = new Word(word.substring(0, word.length() - 1));
-                    units.add((E) w);
+                    units.add(w);
                 }
                 Punctuation p = new Punctuation(word.substring(word.length() - 1, word.length()));
-                units.add((E)p);
+                units.add(p);
             }
             else {
-                units.add((E)(new Word(word)));
+                units.add((new Word(word)));
             }
         }
         switch (units.get(units.size() - 1).getValue().charAt(0)) {
@@ -44,14 +44,14 @@ public class Sentence<E extends SentenceUnit> {
         }
     }
 
-    public E[] getUnits() {
+    public SentenceUnit[] getUnits() {
         SentenceUnit[] result = new SentenceUnit[units.size()];
         int i = 0;
-        for(E unit : units) {
+        for(SentenceUnit unit : units) {
             result[i] = unit;
             i++;
         }
-        return (E[]) result;
+        return result;
     }
 
     public SentenceType getType() {
@@ -72,7 +72,7 @@ public class Sentence<E extends SentenceUnit> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Sentence)) return false;
-        Sentence<?> sentence = (Sentence<?>) o;
+        Sentence sentence = (Sentence) o;
         return Objects.equals(units, sentence.units) &&
                 type == sentence.type;
     }

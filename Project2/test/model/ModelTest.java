@@ -10,10 +10,10 @@ import static org.junit.Assert.*;
 public class ModelTest {
 
     private static Model model;
-    private static Sentence<SentenceUnit>[] sentences;
+    private static Sentence[] sentences;
 
     @BeforeClass
-    public static void setUp() throws Exception {
+    public static void setUp() {
         model = new Model();
         sentences = new Sentence[] {
                 new Sentence("Quick brown fox."),
